@@ -11,3 +11,4 @@ eventlet==0.33.3
 PyJWT==2.8.0
 pymongo==4.5.0
 gunicorn==21.2.0
+websocket-client==1.6.4

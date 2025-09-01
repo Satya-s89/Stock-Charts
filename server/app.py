@@ -5,7 +5,7 @@ import os
 import requests
 import time
 import json
-import websocket
+# import websocket  # Not needed for production
 import threading
 import yfinance as yf
 import pandas as pd
