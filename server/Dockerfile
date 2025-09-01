@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE $PORT
 
-CMD gunicorn --worker-class eventlet -w 1 --bind 0.0.0.0:$PORT app:app
+CMD gunicorn -c gunicorn.conf.py app:app
