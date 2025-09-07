@@ -11,7 +11,7 @@ interface StockChartProps {
   activeIndicators: string[];
 }
 
-export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }: StockChartProps) => {
+export const StockChart = ({ data, trades, activeIndicators }: StockChartProps) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const candlestickSeriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
@@ -36,7 +36,6 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
       height: chartContainerRef.current.clientHeight,
       layout: {
         background: { color: '#000000' },
-        textColor: '#9CA3AF',
         fontSize: 11,
         fontFamily: 'system-ui, -apple-system, sans-serif',
       },
@@ -145,7 +144,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
     if (!data || !candlestickSeriesRef.current || !volumeSeriesRef.current) return;
 
     const candlestickData: CandlestickData[] = data.timestamps.map((timestamp, index) => ({
-      time: timestamp,
+      time: timestamp as any,
       open: data.open[index],
       high: data.high[index],
       low: data.low[index],
@@ -153,7 +152,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
     }));
 
     const volumeData: HistogramData[] = data.timestamps.map((timestamp, index) => ({
-      time: timestamp,
+      time: timestamp as any,
       value: data.volume[index],
       color: data.close[index] >= data.open[index] ? '#00D4AA40' : '#FF6B6B40',
     }));
@@ -162,10 +161,10 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
     volumeSeriesRef.current.setData(volumeData);
     
     // Fit chart content to show all data from start to end
-    chartRef.current.timeScale().fitContent();
+    chartRef.current?.timeScale().fitContent();
     
     // Clear existing indicators
-    indicatorSeriesRef.current.forEach((series, key) => {
+    indicatorSeriesRef.current.forEach((series) => {
       if (chartRef.current) {
         chartRef.current.removeSeries(series);
       }
@@ -177,7 +176,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
       if (data.sma_20 && activeIndicators.includes('sma_20')) {
         const series = chartRef.current.addLineSeries({ color: '#2196F3', lineWidth: 2 });
         const seriesData = data.timestamps.map((timestamp, index) => ({
-          time: timestamp,
+          time: timestamp as any,
           value: data.sma_20![index],
         })).filter(item => item.value !== null);
         series.setData(seriesData);
@@ -187,7 +186,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
       if (data.sma_50 && activeIndicators.includes('sma_50')) {
         const series = chartRef.current.addLineSeries({ color: '#FF9800', lineWidth: 2 });
         const seriesData = data.timestamps.map((timestamp, index) => ({
-          time: timestamp,
+          time: timestamp as any,
           value: data.sma_50![index],
         })).filter(item => item.value !== null);
         series.setData(seriesData);
@@ -197,7 +196,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
       if (data.ema_12 && activeIndicators.includes('ema_12')) {
         const series = chartRef.current.addLineSeries({ color: '#9C27B0', lineWidth: 2 });
         const seriesData = data.timestamps.map((timestamp, index) => ({
-          time: timestamp,
+          time: timestamp as any,
           value: data.ema_12![index],
         })).filter(item => item.value !== null);
         series.setData(seriesData);
@@ -208,7 +207,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
         const series = chartRef.current.addLineSeries({ color: '#4CAF50', lineWidth: 1, priceScaleId: 'rsi' });
         chartRef.current.priceScale('rsi').applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
         const seriesData = data.timestamps.map((timestamp, index) => ({
-          time: timestamp,
+          time: timestamp as any,
           value: data.rsi![index],
         })).filter(item => item.value !== null);
         series.setData(seriesData);
@@ -222,7 +221,7 @@ export const StockChart = ({ data, trades, symbol, timeframe, activeIndicators }
 
     const latestTrade = trades[trades.length - 1];
     candlestickSeriesRef.current.update({
-      time: Math.floor(latestTrade.timestamp / 1000),
+      time: Math.floor(latestTrade.timestamp / 1000) as any,
       open: latestTrade.price,
       high: latestTrade.price,
       low: latestTrade.price,

@@ -15,11 +15,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeIndicators, setActiveIndicators] = useState<string[]>([]);
 
-  const { data, isConnected, error } = useWebSocket(`${symbol}_${timeframe}`, timeframe);
+  const { data, isConnected } = useWebSocket(`${symbol}_${timeframe}`, timeframe);
 
   useEffect(() => {
     if (data) {
-      if (data.type === 'historical') {
+      if ('type' in data && data.type === 'historical') {
         // Validate data before setting
         if (data.data && data.data.timestamps && data.data.timestamps.length > 0) {
           console.log(`Received ${data.data.timestamps.length} data points for ${data.symbol} (${data.timeframe})`);
