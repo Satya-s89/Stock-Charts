@@ -29,8 +29,8 @@ function App() {
           console.error('Invalid historical data received');
           setIsLoading(false);
         }
-      } else if (data.type === 'trade' || data.type === 'realtime') {
-        setTrades(prev => [...prev.slice(-99), data]);
+      } else if ('type' in data && (data.type === 'trade' || data.type === 'realtime')) {
+        setTrades(prev => [...prev.slice(-99), data as TradeData]);
       }
     }
   }, [data]);
