@@ -20,7 +20,7 @@ load_dotenv()
 app = FastAPI()
 
 # Get allowed origins from environment or use defaults
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,https://chartbro.netlify.app").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,https://chartbro.netlify.app,https://stock-charts-16e1.onrender.com").split(",")
 
 app.add_middleware(
     CORSMiddleware,
