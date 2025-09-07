@@ -60,12 +60,10 @@ export const StockChart = ({ data, trades, activeIndicators }: StockChartProps) 
       },
       rightPriceScale: {
         borderColor: '#374151',
-        textColor: '#9CA3AF',
         scaleMargins: { top: 0.1, bottom: 0.2 },
       },
       timeScale: {
         borderColor: '#374151',
-        textColor: '#9CA3AF',
         timeVisible: true,
         secondsVisible: false,
         rightOffset: 12,
