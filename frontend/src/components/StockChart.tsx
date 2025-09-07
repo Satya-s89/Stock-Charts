@@ -36,7 +36,6 @@ export const StockChart = ({ data, trades, activeIndicators }: StockChartProps) 
       height: chartContainerRef.current.clientHeight,
       layout: {
         background: { color: '#000000' },
-        textColor: '#9CA3AF',
         fontSize: 11,
         fontFamily: 'system-ui, -apple-system, sans-serif',
       },

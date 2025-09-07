@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (data) {
-      if ('type' in data && data.type === 'historical') {
+      if (data.type === 'historical') {
         // Validate data before setting
         if (data.data && data.data.timestamps && data.data.timestamps.length > 0) {
           console.log(`Received ${data.data.timestamps.length} data points for ${data.symbol} (${data.timeframe})`);
@@ -29,8 +29,8 @@ function App() {
           console.error('Invalid historical data received');
           setIsLoading(false);
         }
-      } else if ('type' in data && (data.type === 'trade' || data.type === 'realtime')) {
-        setTrades(prev => [...prev.slice(-99), data as TradeData]);
+      } else if (data.type === 'trade') {
+        setTrades(prev => [...prev.slice(-99), data]);
       }
     }
   }, [data]);
